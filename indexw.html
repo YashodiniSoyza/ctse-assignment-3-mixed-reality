@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AR Park Project</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+
+  <!-- Particle system (optional) -->
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
+
+  <!-- Animation Mixer for GLTF animations -->
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+
+  <!-- Animation Switch Button -->
+  <button id="switch-animation-btn" class="btn btn-primary btn-lg shadow-lg" style="position: absolute; top: 10px; left: 10px; z-index: 999;">
+    🔁 Switch Animation
+  </button>
+
+<a-scene embedded arjs vr-mode-ui="enabled: false">
+  <a-assets>
+    <!-- Models -->
+    <a-asset-item id="dog-model" src="./models/dog.glb"></a-asset-item>
+    <a-asset-item id="donkey-model" src="./models/Donkey.glb"></a-asset-item>
+    <a-asset-item id="bull-model" src="./models/Bull.glb"></a-asset-item>
+    <a-asset-item id="alpaca-model" src="./models/Alpaca.glb"></a-asset-item>
+    <a-asset-item id="fox-model" src="./models/Fox.glb"></a-asset-item>
+    <a-asset-item id="horse-model" src="./models/Horse.glb"></a-asset-item>
+    <a-asset-item id="stag-model" src="./models/Stag.glb"></a-asset-item>
+
+    <!-- Sounds -->
+    <audio id="dog-sound" src="./sounds/dog-bark.wav"></audio>
+    <audio id="donkey-sound" src="./sounds/donkey.wav"></audio>
+    <audio id="bull-sound" src="./sounds/bull.wav"></audio>
+    <audio id="alpaca-sound" src="./sounds/alpaca.wav"></audio>
+    <audio id="fox-sound" src="./sounds/fox.wav"></audio>
+    <audio id="horse-sound" src="./sounds/horse.wav"></audio>
+    <audio id="stag-sound" src="./sounds/stag.wav"></audio>
+  </a-assets>
+
+  <!-- Template for animal markers -->
+  <a-entity id="animal-markers">
+    <!-- Dog -->
+    <a-marker type="pattern" url="markers/pattern-hiro.patt" id="dog-marker">
+      <a-entity id="dog-entity" gltf-model="#dog-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Attack; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Dog" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Donkey -->
+    <a-marker type="pattern" url="markers/pattern-kanji.patt" id="donkey-marker">
+      <a-entity id="donkey-entity" gltf-model="#donkey-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Wind; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Donkey" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+      <a-entity particle-system="preset: dust; color: #00ff00; particleCount: 500"></a-entity>
+    </a-marker>
+
+    <!-- Bull -->
+    <a-marker type="pattern" url="markers/pattern-letterA.patt" id="bull-marker">
+      <a-entity id="bull-entity" gltf-model="#bull-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Bull" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Alpaca -->
+    <a-marker type="pattern" url="markers/pattern-letterB.patt" id="alpaca-marker">
+      <a-entity id="alpaca-entity" gltf-model="#alpaca-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Alpaca" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Fox -->
+    <a-marker type="pattern" url="markers/pattern-letterC.patt" id="fox-marker">
+      <a-entity id="fox-entity" gltf-model="#fox-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Fox" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Horse -->
+    <a-marker type="pattern" url="markers/pattern-letterD.patt" id="horse-marker">
+      <a-entity id="horse-entity" gltf-model="#horse-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Horse" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Stag -->
+    <a-marker type="pattern" url="markers/pattern-arjs.patt" id="stag-marker">
+      <a-entity id="stag-entity" gltf-model="#stag-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Stag" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+  </a-entity>
+
+  <!-- Camera -->
+  <a-entity camera></a-entity>
+</a-scene>
+
+<script>
+  const models = {
+    "dog-marker": { entityId: "dog-entity", soundId: "dog-sound", animations: [], currentClipIndex: 0 },
+    "donkey-marker": { entityId: "donkey-entity", soundId: "donkey-sound", animations: [], currentClipIndex: 0 },
+    "bull-marker": { entityId: "bull-entity", soundId: "bull-sound", animations: [], currentClipIndex: 0 },
+    "alpaca-marker": { entityId: "alpaca-entity", soundId: "alpaca-sound", animations: [], currentClipIndex: 0 },
+    "fox-marker": { entityId: "fox-entity", soundId: "fox-sound", animations: [], currentClipIndex: 0 },
+    "horse-marker": { entityId: "horse-entity", soundId: "horse-sound", animations: [], currentClipIndex: 0 },
+    "stag-marker": { entityId: "stag-entity", soundId: "stag-sound", animations: [], currentClipIndex: 0 }
+  };
+
+  // Load available animations after GLTF models are fully loaded
+  setTimeout(() => {
+    Object.keys(models).forEach(markerId => {
+      const entity = document.getElementById(models[markerId].entityId);
+      const mesh = entity.getObject3D("mesh");
+      if (mesh && mesh.animations && mesh.animations.length > 0) {
+        models[markerId].animations = mesh.animations.map(a => a.name);
+      }
+    });
+  }, 3000);
+
+  // Switch animation on button click
+  document.getElementById("switch-animation-btn").addEventListener("click", () => {
+    Object.entries(models).forEach(([markerId, modelInfo]) => {
+      if (modelInfo.animations.length > 1) {
+        modelInfo.currentClipIndex = (modelInfo.currentClipIndex + 1) % modelInfo.animations.length;
+        const entity = document.getElementById(modelInfo.entityId);
+        entity.setAttribute("animation-mixer", `clip: ${modelInfo.animations[modelInfo.currentClipIndex]}; loop: true;`);
+      }
+    });
+  });
+
+  // Optional: Play sound when marker is detected
+  AFRAME.registerComponent('play-sound-on-visible', {
+    init: function () {
+      const soundId = this.el.getAttribute('id')?.replace('-marker', '-sound');
+      const audio = document.getElementById(soundId);
+      if (!audio) return;
+
+      this.el.addEventListener('markerFound', () => {
+        audio.currentTime = 0;
+        audio.play();
+      });
+
+      this.el.addEventListener('markerLost', () => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    }
+  });
+
+  // Attach play-sound-on-visible component to each marker
+  window.addEventListener('DOMContentLoaded', () => {
+    Object.keys(models).forEach(markerId => {
+      const marker = document.getElementById(markerId);
+      if (marker) marker.setAttribute('play-sound-on-visible', '');
+    });
+  });
+</script>
+
+</body>
+</html>

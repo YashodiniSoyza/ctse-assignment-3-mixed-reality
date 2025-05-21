@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AR Animal Park - Experience Wildlife in Augmented Reality</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+    }
+    
+    .hero-section {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1504173010664-32509aeebb62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 7rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .animal-card {
+      transition: transform 0.3s ease;
+      margin-bottom: 1.5rem;
+      height: 100%;
+    }
+    
+    .animal-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .animal-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-button {
+      padding: 0.8rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+      }
+    }
+    
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #28a745;
+    }
+    
+    .how-it-works {
+      background-color: #e9ecef;
+      padding: 4rem 0;
+    }
+    
+    .step-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      height: 100%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .step-number {
+      background-color: #28a745;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-tree-fill me-2"></i>
+        AR Animal Park
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#animals">Animals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#how-it-works">How It Works</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="ar-experience.html">AR Experience</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-3 fw-bold mb-4">Experience Animals in Augmented Reality</h1>
+      <p class="lead mb-5">Bring virtual animals to life in your own space with our interactive AR technology</p>
+      <a href="ar-experience.html" class="btn btn-success btn-lg cta-button">
+        <i class="bi bi-camera-fill me-2"></i>Launch AR Experience
+      </a>
+    </div>
+  </section>
+
+  <!-- Featured Animals -->
+  <section class="container mb-5" id="animals">
+    <h2 class="text-center mb-5">Meet Our Virtual Animals</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-smile animal-icon text-success"></i>
+            <h3 class="card-title">Dog</h3>
+            <p class="card-text">Watch our friendly dog perform tricks and hear it bark in augmented reality.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-laughing animal-icon text-success"></i>
+            <h3 class="card-title">Donkey</h3>
+            <p class="card-text">Our virtual donkey comes complete with realistic animations and sounds.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-sunglasses animal-icon text-success"></i>
+            <h3 class="card-title">Bull</h3>
+            <p class="card-text">Experience the power of a bull in the safety of augmented reality.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-3">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-heart-eyes animal-icon text-success"></i>
+            <h3 class="card-title">Alpaca</h3>
+            <p class="card-text">Fluffy and friendly, our alpaca is a crowd favorite.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-wink animal-icon text-success"></i>
+            <h3 class="card-title">Fox</h3>
+            <p class="card-text">Clever and quick, watch the fox move around in your space.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-smile-upside-down animal-icon text-success"></i>
+            <h3 class="card-title">Horse</h3>
+            <p class="card-text">Majestic and powerful, our horse model is incredibly lifelike.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card animal-card">
+          <div class="card-body text-center">
+            <i class="bi bi-emoji-neutral animal-icon text-success"></i>
+            <h3 class="card-title">Stag</h3>
+            <p class="card-text">Observe the grace and beauty of a stag in your own environment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="container text-center mb-5">
+    <h2 class="mb-5">Why You'll Love Our AR Experience</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="feature-icon">
+          <i class="bi bi-phone"></i>
+        </div>
+        <h3>Works on Your Device</h3>
+        <p>No special equipment needed. Just use your smartphone or tablet.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-icon">
+          <i class="bi bi-volume-up"></i>
+        </div>
+        <h3>Realistic Sounds</h3>
+        <p>Each animal comes with authentic sounds for an immersive experience.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-icon">
+          <i class="bi bi-arrow-repeat"></i>
+        </div>
+        <h3>Multiple Animations</h3>
+        <p>Switch between different animations to see various animal behaviors.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works mb-5" id="how-it-works">
+    <div class="container">
+      <h2 class="text-center mb-5">How It Works</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Print the Markers</h3>
+            <p>Download and print the AR markers that will trigger the animal models.</p>
+            <a href="#" class="btn btn-outline-success">Download Markers</a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Launch the App</h3>
+            <p>Open our AR experience in your browser and allow camera access.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Point at Markers</h3>
+            <p>Point your camera at the markers to see the animals come to life!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="container text-center mb-5">
+    <div class="card bg-dark text-white p-5">
+      <div class="card-body">
+        <h2 class="mb-4">Ready to start your AR adventure?</h2>
+        <p class="lead mb-4">Experience the magic of bringing virtual animals into your world</p>
+        <a href="ar-experience.html" class="btn btn-success btn-lg cta-button">
+          <i class="bi bi-camera-fill me-2"></i>Launch AR Experience
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p>© 2025 AR Animal Park. All rights reserved.</p>
+      <p>Created with A-Frame and AR.js</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Add animation to the CTA button
+    const ctaButtons = document.querySelectorAll('.cta-button');
+    ctaButtons.forEach(button => {
+      button.addEventListener('mouseover', () => {
+        button.classList.add('animate__animated', 'animate__pulse');
+      });
+      
+      button.addEventListener('mouseout', () => {
+        button.classList.remove('animate__animated', 'animate__pulse');
+      });
+    });
+  </script>
+</body>
+</html>

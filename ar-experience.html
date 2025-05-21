@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AR Park Project</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+
+  <!-- Particle system (optional) -->
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.9/dist/aframe-particle-system-component.min.js"></script>
+
+  <!-- Animation Mixer for GLTF animations -->
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+  <style>
+    /* Button container for positioning */
+    .button-container {
+      position: fixed;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      pointer-events: none; /* Allow clicks to pass through container */
+    }
+    
+    /* Creative animation button */
+    .animation-btn {
+      pointer-events: auto; /* Make button clickable */
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      padding: 12px 25px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform-origin: center;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .animation-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #8a2be2 0%, #0088ff 100%);
+    }
+    
+    .animation-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .animation-icon {
+      font-size: 1.5rem;
+      animation: spin 4s linear infinite;
+      display: inline-block;
+    }
+    
+    /* Home button */
+    .home-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .home-btn:hover {
+      background-color: white;
+      transform: scale(1.1);
+    }
+    
+    /* Animations */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    /* Animation name display */
+    .animation-name {
+      position: fixed;
+      bottom: 90px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 15px;
+      border-radius: 20px;
+      max-width: 200px;
+      margin: 0 auto;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .animation-name.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body style="margin: 0; overflow: hidden;">
+
+  <!-- Home Button -->
+  <a href="index.html" class="home-btn">
+    <i class="bi bi-house-fill" style="font-size: 1.5rem;"></i>
+  </a>
+
+  <!-- Creative Animation Switch Button (centered at bottom) -->
+  <div class="button-container">
+    <button id="switch-animation-btn" class="animation-btn">
+      <i class="bi bi-magic animation-icon"></i>
+      <span>Switch Animation</span>
+    </button>
+  </div>
+  
+  <!-- Animation name display -->
+  <div id="animation-name" class="animation-name">Idle</div>
+
+<a-scene embedded arjs vr-mode-ui="enabled: false">
+  <a-assets>
+    <!-- Models -->
+    <a-asset-item id="dog-model" src="./models/dog.glb"></a-asset-item>
+    <a-asset-item id="donkey-model" src="./models/Donkey.glb"></a-asset-item>
+    <a-asset-item id="bull-model" src="./models/Bull.glb"></a-asset-item>
+    <a-asset-item id="alpaca-model" src="./models/Alpaca.glb"></a-asset-item>
+    <a-asset-item id="fox-model" src="./models/Fox.glb"></a-asset-item>
+    <a-asset-item id="horse-model" src="./models/Horse.glb"></a-asset-item>
+    <a-asset-item id="stag-model" src="./models/Stag.glb"></a-asset-item>
+
+    <!-- Sounds -->
+    <audio id="dog-sound" src="./sounds/dog-bark.wav"></audio>
+    <audio id="donkey-sound" src="./sounds/donkey.wav"></audio>
+    <audio id="bull-sound" src="./sounds/bull.wav"></audio>
+    <audio id="alpaca-sound" src="./sounds/alpaca.wav"></audio>
+    <audio id="fox-sound" src="./sounds/fox.wav"></audio>
+    <audio id="horse-sound" src="./sounds/horse.wav"></audio>
+    <audio id="stag-sound" src="./sounds/stag.wav"></audio>
+  </a-assets>
+
+  <!-- Template for animal markers -->
+  <a-entity id="animal-markers">
+    <!-- Dog -->
+    <a-marker type="pattern" url="markers/pattern-hiro.patt" id="dog-marker">
+      <a-entity id="dog-entity" gltf-model="#dog-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Attack; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Dog" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Donkey -->
+    <a-marker type="pattern" url="markers/pattern-kanji.patt" id="donkey-marker">
+      <a-entity id="donkey-entity" gltf-model="#donkey-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Wind; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Donkey" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+      <a-entity particle-system="preset: dust; color: #00ff00; particleCount: 500"></a-entity>
+    </a-marker>
+
+    <!-- Bull -->
+    <a-marker type="pattern" url="markers/pattern-letterA.patt" id="bull-marker">
+      <a-entity id="bull-entity" gltf-model="#bull-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Bull" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Alpaca -->
+    <a-marker type="pattern" url="markers/pattern-letterB.patt" id="alpaca-marker">
+      <a-entity id="alpaca-entity" gltf-model="#alpaca-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Alpaca" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Fox -->
+    <a-marker type="pattern" url="markers/pattern-letterC.patt" id="fox-marker">
+      <a-entity id="fox-entity" gltf-model="#fox-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Fox" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Horse -->
+    <a-marker type="pattern" url="markers/pattern-letterD.patt" id="horse-marker">
+      <a-entity id="horse-entity" gltf-model="#horse-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Horse" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+
+    <!-- Stag -->
+    <a-marker type="pattern" url="markers/pattern-arjs.patt" id="stag-marker">
+      <a-entity id="stag-entity" gltf-model="#stag-model" position="0 0 0" rotation="0 180 0" scale="0.5 0.5 0.5" animation-mixer="clip: Idle; loop: true;">
+        <a-entity position="0 0.75 1" look-at="[camera]">
+          <a-plane width="1.2" height="0.4" color="#000" opacity="0.6" material="shader: flat"></a-plane>
+          <a-text value="Stag" align="center" color="white" position="0 0 0.01" width="4"></a-text>
+        </a-entity>
+      </a-entity>
+    </a-marker>
+  </a-entity>
+
+  <!-- Camera -->
+  <a-entity camera></a-entity>
+</a-scene>
+
+<script>
+  const models = {
+    "dog-marker": { entityId: "dog-entity", soundId: "dog-sound", animations: [], currentClipIndex: 0 },
+    "donkey-marker": { entityId: "donkey-entity", soundId: "donkey-sound", animations: [], currentClipIndex: 0 },
+    "bull-marker": { entityId: "bull-entity", soundId: "bull-sound", animations: [], currentClipIndex: 0 },
+    "alpaca-marker": { entityId: "alpaca-entity", soundId: "alpaca-sound", animations: [], currentClipIndex: 0 },
+    "fox-marker": { entityId: "fox-entity", soundId: "fox-sound", animations: [], currentClipIndex: 0 },
+    "horse-marker": { entityId: "horse-entity", soundId: "horse-sound", animations: [], currentClipIndex: 0 },
+    "stag-marker": { entityId: "stag-entity", soundId: "stag-sound", animations: [], currentClipIndex: 0 }
+  };
+
+  const animationNameDisplay = document.getElementById('animation-name');
+  let activeMarkers = new Set();
+  let currentAnimationName = "Idle";
+
+  // Load available animations after GLTF models are fully loaded
+  setTimeout(() => {
+    Object.keys(models).forEach(markerId => {
+      const entity = document.getElementById(models[markerId].entityId);
+      const mesh = entity.getObject3D("mesh");
+      if (mesh && mesh.animations && mesh.animations.length > 0) {
+        models[markerId].animations = mesh.animations.map(a => a.name);
+        console.log(`${markerId} animations:`, models[markerId].animations);
+      }
+    });
+  }, 3000);
+
+  // Switch animation on button click with visual feedback
+  document.getElementById("switch-animation-btn").addEventListener("click", () => {
+    let animationChanged = false;
+    
+    Object.entries(models).forEach(([markerId, modelInfo]) => {
+      if (modelInfo.animations.length > 1) {
+        modelInfo.currentClipIndex = (modelInfo.currentClipIndex + 1) % modelInfo.animations.length;
+        const nextClip = modelInfo.animations[modelInfo.currentClipIndex];
+        const entity = document.getElementById(modelInfo.entityId);
+        
+        entity.setAttribute("animation-mixer", `clip: ${nextClip}; loop: true;`);
+        
+        // Update animation name if this marker is active
+        if (activeMarkers.has(markerId)) {
+          currentAnimationName = nextClip;
+          animationChanged = true;
+        }
+      }
+    });
+    
+    // Show animation name with visual feedback
+    if (animationChanged) {
+      animationNameDisplay.textContent = currentAnimationName;
+      animationNameDisplay.classList.add('visible');
+      
+      // Add button press effect
+      const btn = document.getElementById("switch-animation-btn");
+      btn.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        btn.style.transform = "";
+      }, 150);
+      
+      // Hide animation name after 2 seconds
+      setTimeout(() => {
+        animationNameDisplay.classList.remove('visible');
+      }, 2000);
+    }
+  });
+
+  // Track active markers to know which animation name to display
+  Object.keys(models).forEach(markerId => {
+    const marker = document.getElementById(markerId);
+    const { entityId, soundId } = models[markerId];
+    const sound = document.getElementById(soundId);
+    const entity = document.getElementById(entityId);
+
+    marker.addEventListener("markerFound", () => {
+      activeMarkers.add(markerId);
+      sound.play();
+      entity.setAttribute("animation-mixer", "enabled", true);
+      
+      // Get current animation name
+      const currentClip = models[markerId].animations[models[markerId].currentClipIndex];
+      if (currentClip) {
+        currentAnimationName = currentClip;
+        animationNameDisplay.textContent = currentAnimationName;
+        animationNameDisplay.classList.add('visible');
+        
+        // Hide animation name after 2 seconds
+        setTimeout(() => {
+          animationNameDisplay.classList.remove('visible');
+        }, 2000);
+      }
+    });
+
+    marker.addEventListener("markerLost", () => {
+      activeMarkers.delete(markerId);
+      sound.pause();
+      sound.currentTime = 0;
+      entity.setAttribute("animation-mixer", "enabled", false);
+    });
+  });
+  
+  // Add button hover effect with sound
+  const switchBtn = document.getElementById("switch-animation-btn");
+  switchBtn.addEventListener("mouseover", () => {
+    switchBtn.style.transform = "scale(1.05)";
+  });
+  
+  switchBtn.addEventListener("mouseout", () => {
+    switchBtn.style.transform = "";
+  });
+  
+  // Pulse effect on button every 5 seconds to draw attention
+  setInterval(() => {
+    if (activeMarkers.size > 0) {
+      switchBtn.classList.add("pulse");
+      setTimeout(() => {
+        switchBtn.classList.remove("pulse");
+      }, 1000);
+    }
+  }, 5000);
+</script>
+
+</body>
+</html>
